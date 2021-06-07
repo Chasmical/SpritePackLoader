@@ -113,6 +113,8 @@ namespace SpritePackLoader
 						ExtractContext(ref dir, ref cxt);
 					}
 					string name = paths[paths.Length - 1];
+					int extIndex = name.LastIndexOf('.');
+					if (extIndex != -1) name = name.Substring(0, extIndex);
 					ExtractContext(ref name, ref cxt);
 					using (MemoryStream stream = new MemoryStream())
 					{
