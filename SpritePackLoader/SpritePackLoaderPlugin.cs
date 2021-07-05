@@ -29,23 +29,23 @@ namespace SpritePackLoader
 				new CustomNameInfo
 				{
 					English = "SpritePack Testing Mode",
-					Russian = "Режим тестирования спрайтпаков"
+					Russian = "Режим тестирования спрайтпаков",
 				},
 				new CustomNameInfo
 				{
 					English = "Gives the player an item to test item sprites",
-					Russian = "Даёт игроку предмет для тестирования спрайтов предметов"
+					Russian = "Даёт игроку предмет для тестирования спрайтов предметов",
 				});
 			RogueLibs.CreateCustomItem<SpritePackTester>()
 				.WithName(new CustomNameInfo
 				{
 					English = "SpritePack Tester",
-					Russian = "Тестер спрайтпаков"
+					Russian = "Тестер спрайтпаков",
 				})
 				.WithDescription(new CustomNameInfo
 				{
 					English = "Spawns all available items' sprites around the player. Use again to destroy all sprites.",
-					Russian = ""
+					Russian = "Спавнит все спрайты доступных предметов вокруг игрока. Используйте ещё раз чтобы уничтожить все спрайты.",
 				})
 				.WithSprite(Properties.Resources.SpritePackTester)
 				.WithUnlock(new ItemUnlock { IsAvailable = false, IsAvailableInCC = false, IsEnabled = false });

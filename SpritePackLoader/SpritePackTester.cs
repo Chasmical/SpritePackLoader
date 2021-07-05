@@ -26,11 +26,12 @@ namespace SpritePackLoader
 		private static readonly List<InvItem> decoys = new List<InvItem>();
 		private IEnumerable<Vector3> EnumerateLocationsNearby(float scale)
 			=> Hexagon.Spiral(new Hexagon(0, 0, 0), int.MaxValue).Select(h => h.ToVector(scale));
-		public void UseItem()
+		public bool UseItem()
 		{
-			if (activating) return;
+			if (activating) return false;
 			activating = true;
 			Item.database.StartCoroutine(UseItem2());
+			return true;
 		}
 		private IEnumerator UseItem2()
 		{
@@ -41,7 +42,7 @@ namespace SpritePackLoader
 					Vector3 center = Owner.tr.position;
 					IEnumerator<Vector3> locationsEnumerator = EnumerateLocationsNearby(0.32f).GetEnumerator();
 
-					foreach (ItemUnlock item in RogueLibsInternals.Unlocks.OfType<ItemUnlock>())
+					foreach (ItemUnlock item in RogueFramework.Unlocks.OfType<ItemUnlock>())
 					{
 						InvItem invItem = new InvItem { invItemName = item.Name };
 						invItem.SetupDetails(false);
