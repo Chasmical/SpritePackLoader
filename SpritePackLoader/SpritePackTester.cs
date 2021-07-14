@@ -40,7 +40,7 @@ namespace SpritePackLoader
 				if (displayed = !displayed)
 				{
 					Vector3 center = Owner.tr.position;
-					IEnumerator<Vector3> locationsEnumerator = EnumerateLocationsNearby(0.32f).GetEnumerator();
+					IEnumerator<Vector3> locationsEnumerator = EnumerateLocationsNearby(0.48f).GetEnumerator();
 
 					foreach (ItemUnlock item in RogueFramework.Unlocks.OfType<ItemUnlock>())
 					{

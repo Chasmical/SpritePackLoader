@@ -19,7 +19,7 @@ namespace SpritePackLoader
 	{
 		public const string PluginGUID = "abbysssal.streetsofrogue.spritepackloader";
 		public const string PluginName = "SpritePackLoader";
-		public const string PluginVersion = "0.2";
+		public const string PluginVersion = "0.3";
 
 		public string PackPath { get; private set; }
 		public string SpritePacksPath { get; private set; }
