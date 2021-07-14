@@ -77,4 +77,7 @@
     <None Include="Resources\SpritePackTester.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"D:\repos\.events\PluginBuildEvents.exe" "$(TargetPath)" "Streets of Rogue"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

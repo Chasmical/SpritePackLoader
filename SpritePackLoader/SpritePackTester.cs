@@ -52,6 +52,7 @@ namespace SpritePackLoader
 						if (!locationsEnumerator.MoveNext()) break;
 						Vector3 location = locationsEnumerator.Current + center;
 						Item spawned = GameController.gameController.spawnerMain.SpawnItem(location, invItem);
+						spawned.SetCantPickUp(true);
 						GameController.gameController.audioHandler.Play(spawned, "Spawn");
 						decoys.Add(invItem);
 						yield return new WaitForFixedUpdate();
