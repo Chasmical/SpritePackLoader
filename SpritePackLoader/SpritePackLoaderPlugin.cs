@@ -25,13 +25,13 @@ namespace SpritePackLoader
 		public string SpritePacksPath { get; private set; }
 		public void Awake()
 		{
-			RogueLibs.CreateCustomUnlock(new MutatorUnlock("SpritePackTestingMode", true),
-				new CustomNameInfo
+			RogueLibs.CreateCustomUnlock(new MutatorUnlock("SpritePackTestingMode", true))
+				.WithName(new CustomNameInfo
 				{
 					English = "SpritePack Testing Mode",
 					Russian = "Режим тестирования спрайтпаков",
-				},
-				new CustomNameInfo
+				})
+				.WithDescription(new CustomNameInfo
 				{
 					English = "Gives the player an item to test item sprites",
 					Russian = "Даёт игроку предмет для тестирования спрайтов предметов",
