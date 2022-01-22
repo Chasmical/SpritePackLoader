@@ -40,14 +40,14 @@ Alright, it might not be as easy as it could possibly be, but it's the best I co
 3. Go to your game's root directory and create `SpritePack` folder, if it doesn't already exist. And create folders called `ITEMS`, `OBJECTS` and etc. in it.
 4. If your sprites are not 64x64, add _SIZExSIZE to the directory names. Example: `ITEMS_64x64`. You can have multiple directories with the same scope.
 
-Any of the modifiers above (size, scope) also can be applied to files. Scope modifier is put before the sprite id, and the size - after. Examples: `Blindenizer_8x8.png` (in ITEMS directory), `ITEMS_BearTrap.png` (doesn't matter what directory the file is in), `ITEMS_Beer_512x512` (btw the extension also doesn't matter, just make sure the data itself is PNG- or JPEG-encoded).
+- Any of the modifiers above (size, scope) also can be applied to files. Scope modifier is put before the sprite id, and the size - after. Examples: `Blindenizer_8x8.png` (in ITEMS directory), `ITEMS_BearTrap.png` (doesn't matter what directory the file is in), `ITEMS_Beer_512x512` (btw the extension also doesn't matter, just make sure the data itself is PNG- or JPEG-encoded).
 
-Here's some examples of valid identifiers:
-- `ITEMS/Blindenizer.png` (that is, a file called `Blindenizer.png` in a folder called `ITEMS`);
-- `OBJECTS_AmmoDispenser.png`;
-- `ITEMS_16x16/BaseballBat.png`;
-- `ITEMS/Beer_256x256.png`;
-- `ITEMS_Chainsaw_1024x1024.png`;
+- Here's some examples of valid identifiers:
+  - `ITEMS/Blindenizer.png` (that is, a file called `Blindenizer.png` in a folder called `ITEMS`);
+  - `OBJECTS_AmmoDispenser.png`;
+  - `ITEMS_16x16/BaseballBat.png`;
+  - `ITEMS/Beer_256x256.png`;
+  - `ITEMS_Chainsaw_1024x1024.png`;
 
 5. Launch the game, and all of the sprites from the `SpritePack` directory will be loaded, as if they are in a .spritepack file. It's great for seeing how your sprites look in the game, without having to pack all of it in a .spritepack file.
    - If you need to test item sprites, you can use a SpritePack Tester item in the Item Teleporter's menu, that will spawn all item sprites around the player.
