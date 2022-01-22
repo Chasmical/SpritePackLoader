@@ -19,7 +19,7 @@ namespace SpritePackLoader
     {
         public const string PluginGUID = "abbysssal.streetsofrogue.spritepackloader";
         public const string PluginName = "SpritePackLoader";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.1";
 
         public string PackPath { get; private set; }
         public string SpritePacksPath { get; private set; }
@@ -194,6 +194,7 @@ namespace SpritePackLoader
         }
         public void ReadSprite(string spriteName, byte[] rawData, SpriteContext cxt)
         {
+			spriteName = spriteName.Replace('$', '/');
             if (cxt.IsValid())
                 try
                 {
