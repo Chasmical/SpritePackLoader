@@ -79,3 +79,8 @@ Size identifiers must be in the end of the path part. Both `512x512` and `my-ite
 
 The sprite's name is extracted from the last path part, excluding all other identifiers, so it doesn't matter what directories that you put it in are called. You can have `ITEMS_MyCoolSprites/bla-blabla/BooUrn.png`, and only `BooUrn` will be recognized.
 
+#### Resources
+
+**[Here's a .zip with all of the sprites in the game](https://cdn.discordapp.com/attachments/433748059172896769/934322414932869140/tk2d.zip).**
+
+**[And here's a SpritePack template, with items and objects sprites](https://github.com/Abbysssal/SpritePackLoader/releases/download/v1.0.1/SpritePackTemplate.zip)**
