@@ -127,10 +127,22 @@ namespace SpritePackLoader
         }
         private static readonly Dictionary<string, SpriteScope> scopeDict = new Dictionary<string, SpriteScope>
         {
+            ["EXTRA"] = SpriteScope.Extra,
             ["ITEMS"] = SpriteScope.Items,
             ["OBJECTS"] = SpriteScope.Objects,
             ["FLOORS"] = SpriteScope.Floors,
-            ["EXTRA"] = SpriteScope.Extra,
+            ["BULLETS"] = SpriteScope.Bullets,
+            ["HAIR"] = SpriteScope.Hair,
+            ["FACIALHAIR"] = SpriteScope.FacialHair,
+            ["HEADPIECES"] = SpriteScope.HeadPieces,
+            ["AGENTS"] = SpriteScope.Agents,
+            ["BODIES"] = SpriteScope.Bodies,
+            ["WRECKAGE"] = SpriteScope.Wreckage,
+            ["INTERFACE"] = SpriteScope.Interface,
+            ["DECALS"] = SpriteScope.Decals,
+            ["WALLTOPS"] = SpriteScope.WallTops,
+            ["WALLS"] = SpriteScope.Walls,
+            ["SPAWNERS"] = SpriteScope.Spawners,
         };
         public void ExtractContext(ref string name, ref SpriteContext cxt)
         {
