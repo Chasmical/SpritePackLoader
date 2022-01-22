@@ -25,14 +25,14 @@
 
 **[Follow the instructions on RogueLibs' site](https://abbysssal.github.io/RogueLibs/docs/user/installation)**.
 
-### Installing SpritePacks
+## Installing SpritePacks
 
 1. Install BepInEx, RogueLibs and SpritePackLoader *(obviously)*;
 2. Download your .spritepack file that you want to use;
 3. Put it in /BepInEx/spritepacks directory (create one if it doesn't exist);
 4. Launch the game!
 
-### Creating Your Own SpritePack
+## Creating Your Own SpritePack
 
 Alright, it might not be as easy as it could possibly be, but it's the best I could do. SoR's code is a mess. Especially with those weird TK2D sprites, that I spent months trying to figure out.
 
@@ -50,7 +50,7 @@ Here's some examples of valid identifiers:
 - `ITEMS/Beer_256x256.png`;
 - `ITEMS_Chainsaw_1024x1024.png`;
 
-**5\.** Launch the game, and all of the sprites from the `SpritePack` directory will be loaded, as if they are in a .spritepack file.
+**5\.** Launch the game, and all of the sprites from the `SpritePack` directory will be loaded, as if they are in a .spritepack file. It's great for seeing how your sprites look in the game, without having to pack all of it in a .spritepack file.
    - If you need to test item sprites, you can use a SpritePack Tester item in the Item Teleporter's menu, that will spawn all item sprites around the player.
 
 **6\.** To publish a spritepack, put the directories in a .zip archive, then change the file's extension to .spritepack and upload it!
@@ -59,6 +59,25 @@ Here's some examples of valid identifiers:
 
 Scope identifiers must be in the beginning of the path part (path parts are identifiers, separated by `/`, excluding the extension). So, both `ITEMS` and `ITEMS_my-items` are valid. Just make sure you separate the identifier from the rest with `_` (underscore).
 
+Currently available scopes:
+- `ITEMS` - items and abilities;
+- `OBJECTS` - objects;
+- `FLOORS` - floor tiles;
+- `BULLETS` - bullets and other projectiles;
+- `HAIR` - hair;
+- `FACIALHAIR` - facial hair;
+- `HEADPIECES` - head pieces;
+- `AGENTS` - eyes, heads, arms and legs;
+- `BODIES` - bodies;
+- `WRECKAGE` - wreckage, that spawns after destroying something;
+- `INTERFACE` - interface stuff;
+- `DECALS` - decals;
+- `WALLTOPS` - tops of the walls;
+- `WALLS` - sides of the walls;
+- `SPAWNERS` - icons in level editor;
+- `EXTRA` - extra sprites, don't worry about that;
+
 Size identifiers must be in the end of the path part. Both `512x512` and `my-items_512x512` are valid. They are separated with a `_` (underscore) as well.
 
 The sprite's name is extracted from the last path part, excluding all other identifiers, so it doesn't matter what directories that you put it in are called. You can have `ITEMS_MyCoolSprites/bla-blabla/BooUrn.png`, and only `BooUrn` will be recognized.
+
