@@ -2,28 +2,28 @@
 
 <div align="center">
   <p>
-    <a href="https://github.com/Abbysssal/SpritePackLoader/releases/latest">
-      <img src="https://img.shields.io/github/v/release/Abbysssal/SpritePackLoader?label=Latest%20release&style=for-the-badge&logo=github" alt="Latest release"/>
+    <a href="https://github.com/SugarBarrel/SpritePackLoader/releases/latest">
+      <img src="https://img.shields.io/github/v/release/SugarBarrel/SpritePackLoader?label=Latest%20release&style=for-the-badge&logo=github" alt="Latest release"/>
     </a>
-    <a href="https://github.com/Abbysssal/SpritePackLoader/releases">
-      <img src="https://img.shields.io/github/v/release/Abbysssal/SpritePackLoader?include_prereleases&label=Latest%20pre-release&style=for-the-badge&logo=github" alt="Latest pre-release"/>
+    <a href="https://github.com/SugarBarrel/SpritePackLoader/releases">
+      <img src="https://img.shields.io/github/v/release/SugarBarrel/SpritePackLoader?include_prereleases&label=Latest%20pre-release&style=for-the-badge&logo=github" alt="Latest pre-release"/>
     </a>
     <br/>
-    <a href="https://github.com/Abbysssal/SpritePackLoader/releases">
-      <img src="https://img.shields.io/github/downloads/Abbysssal/SpritePackLoader/total?label=Downloads&style=for-the-badge" alt="Downloads"/>
+    <a href="https://github.com/SugarBarrel/SpritePackLoader/releases">
+      <img src="https://img.shields.io/github/downloads/SugarBarrel/SpritePackLoader/total?label=Downloads&style=for-the-badge" alt="Downloads"/>
     </a>
-    <a href="https://github.com/Abbysssal/SpritePackLoader/subscription">
-      <img src="https://img.shields.io/github/watchers/Abbysssal/SpritePackLoader?color=green&label=Watchers&style=for-the-badge" alt="Watchers"/>
+    <a href="https://github.com/SugarBarrel/SpritePackLoader/subscription">
+      <img src="https://img.shields.io/github/watchers/SugarBarrel/SpritePackLoader?color=green&label=Watchers&style=for-the-badge" alt="Watchers"/>
     </a>
-    <a href="https://github.com/Abbysssal/SpritePackLoader/stargazers">
-      <img src="https://img.shields.io/github/stars/Abbysssal/SpritePackLoader?color=green&label=Stars&style=for-the-badge" alt="Stars"/>
+    <a href="https://github.com/SugarBarrel/SpritePackLoader/stargazers">
+      <img src="https://img.shields.io/github/stars/SugarBarrel/SpritePackLoader?color=green&label=Stars&style=for-the-badge" alt="Stars"/>
     </a>
   </p>
 </div>
 
 ## Installing SpritePackLoader
 
-**[Follow the instructions on RogueLibs' site](https://abbysssal.github.io/RogueLibs/docs/user/installation)**.
+**[Follow the instructions on RogueLibs' site](https://sugarbarrel.github.io/RogueLibs/docs/user/installation)**.
 
 ## Installing SpritePacks
 
@@ -83,4 +83,4 @@ The sprite's name is extracted from the last path part, excluding all other iden
 
 **[Here's a .zip with all of the sprites in the game](https://cdn.discordapp.com/attachments/433748059172896769/934322414932869140/tk2d.zip).**
 
-**[And here's a SpritePack template, with items and objects sprites](https://github.com/Abbysssal/SpritePackLoader/releases/download/v1.0.1/SpritePackTemplate.zip)**
+**[And here's a SpritePack template, with items and objects sprites](https://github.com/SugarBarrel/SpritePackLoader/releases/download/v1.0.1/SpritePackTemplate.zip)**
