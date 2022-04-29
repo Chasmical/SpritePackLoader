@@ -49,7 +49,7 @@ Alright, it might not be as easy as it could possibly be, but it's the best I co
   - `ITEMS/Beer_256x256.png`;
   - `ITEMS_Chainsaw_1024x1024.png`;
 
-5. Launch the game, and all of the sprites from the `SpritePack` directory will be loaded, as if they are in a .spritepack file. It's great for seeing how your sprites look in the game, without having to pack all of it in a .spritepack file.
+5. Launch the game, and all of the sprites from the `SpritePack` folder (in the game's root directory, create it if it doesn't exist) will be loaded, as if they are in a .spritepack file. It's great for seeing how your sprites look in the game, without having to pack all of it in a .spritepack file.
    - If you need to test item sprites, you can use a SpritePack Tester item in the Item Teleporter's menu, that will spawn all item sprites around the player.
 6. To publish a spritepack, put the directories in a .zip archive, then change the file's extension to .spritepack and upload it!
 
