@@ -1,12 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using BepInEx;
 using RogueLibsCore;
@@ -14,43 +9,70 @@ using RogueLibsCore;
 namespace SpritePackLoader
 {
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
-    [BepInDependency(RogueLibs.GUID, RogueLibs.CompiledVersion)]
+    [BepInDependency(RogueLibs.GUID, "3.3.0")]
     public class SpritePackLoaderPlugin : BaseUnityPlugin
     {
         public const string PluginGUID = "abbysssal.streetsofrogue.spritepackloader";
         public const string PluginName = "SpritePackLoader";
-        public const string PluginVersion = "1.0.1";
+        public const string PluginVersion = "1.1.0";
 
-        public string PackPath { get; private set; }
-        public string SpritePacksPath { get; private set; }
+        public string PackPath { get; private set; } = null!;
+        public string SpritePacksPath { get; private set; } = null!;
         public void Awake()
         {
+            RoguePatcher patcher = new RoguePatcher(this);
+            patcher.Prefix(typeof(AudioHandler), nameof(AudioHandler.SetupDics), nameof(AudioHandler_SetupDics_Prefix));
+            patcher.Postfix(typeof(AudioHandler), nameof(AudioHandler.SetupDics));
+
             RogueLibs.CreateCustomUnlock(new MutatorUnlock("SpritePackTestingMode", true))
                 .WithName(new CustomNameInfo
                 {
                     English = "SpritePack Testing Mode",
-                    Russian = "Режим тестирования спрайтпаков",
+                    Russian = @"Режим тестирования спрайтпаков",
                 })
                 .WithDescription(new CustomNameInfo
                 {
                     English = "Gives the player an item to test item sprites",
-                    Russian = "Даёт игроку предмет для тестирования спрайтов предметов",
+                    Russian = @"Даёт игроку предмет для тестирования спрайтов предметов",
                 });
             RogueLibs.CreateCustomItem<SpritePackTester>()
                 .WithName(new CustomNameInfo
                 {
                     English = "SpritePack Tester",
-                    Russian = "Тестер спрайтпаков",
+                    Russian = @"Тестер спрайтпаков",
                 })
                 .WithDescription(new CustomNameInfo
                 {
                     English = "Spawns all available items' sprites around the player. Use again to destroy all sprites.",
-                    Russian = "Спавнит все спрайты доступных предметов вокруг игрока. Используйте ещё раз чтобы уничтожить все спрайты.",
+                    Russian = @"Спавнит все спрайты доступных предметов вокруг игрока. Используйте ещё раз чтобы уничтожить все спрайты.",
                 })
-                .WithSprite(Properties.Resources.SpritePackTester)
-                .WithUnlock(new ItemUnlock { IsAvailable = false, IsAvailableInCC = false, IsEnabled = false });
+                .WithUnlock(new ItemUnlock
+                {
+                    IsAvailable = false,
+                    IsAvailableInCC = false,
+                    IsAvailableInItemTeleporter = true,
+                    IsEnabled = false,
+
+                });
 
             InitializeSprites();
+        }
+
+        private static readonly List<AudioClip> overrideClips = new List<AudioClip>();
+        // ReSharper disable once IdentifierTypo
+        public static void AudioHandler_SetupDics_Prefix(AudioHandler __instance, out bool __state)
+            => __state = __instance.loadedDics;
+        // ReSharper disable once IdentifierTypo
+        public static void AudioHandler_SetupDics(AudioHandler __instance, ref bool __state)
+        {
+            if (__state) return;
+            foreach (AudioClip clip in overrideClips)
+            {
+                __instance.audioClipList.Add(clip.name);
+                __instance.audioClipRealList.Add(clip);
+                __instance.audioClipDic[clip.name] = clip;
+            }
+            overrideClips.Clear();
         }
         public void InitializeSprites()
         {
@@ -58,44 +80,49 @@ namespace SpritePackLoader
             DirectoryInfo packDir = new DirectoryInfo(PackPath);
             if (packDir.Exists)
             {
-                counter = 0;
+                counterAll = 0;
+                counterAudio = 0;
                 Logger.LogMessage("Loading sprites from SpritePack directory...");
                 DateTime start = DateTime.Now;
                 ReadDirectory(packDir, new SpriteContext(null, 64));
                 DateTime end = DateTime.Now;
-                Logger.LogMessage($"Loaded {counter} sprites in {(end - start).TotalSeconds:#.###} ms.");
+                string? audioInsert = counterAudio > 0 ? $" and {counterAudio} audio files" : null;
+                Logger.LogMessage($"Loaded {counterAll - counterAudio} sprites{audioInsert} in {(end - start).TotalSeconds:#.###} ms.");
             }
             SpritePacksPath = Path.Combine(Paths.BepInExRootPath, "spritepacks");
-            DirectoryInfo spritepacksDir = new DirectoryInfo(SpritePacksPath);
-            spritepacksDir.Create();
-            foreach (FileInfo file in spritepacksDir.EnumerateFiles("*.spritepack", SearchOption.AllDirectories))
+            DirectoryInfo spritePacksDir = new DirectoryInfo(SpritePacksPath);
+            spritePacksDir.Create();
+            foreach (FileInfo file in spritePacksDir.EnumerateFiles(@"*.spritepack", SearchOption.AllDirectories))
             {
-                counter = 0;
+                counterAll = 0;
+                counterAudio = 0;
                 Logger.LogMessage($"Loading sprites from {Path.GetFileNameWithoutExtension(file.FullName)} sprite pack.");
                 DateTime start = DateTime.Now;
                 ReadArchive(file, new SpriteContext(null, 64));
                 DateTime end = DateTime.Now;
-                Logger.LogMessage($"Loaded {counter} sprites in {(end - start).TotalSeconds:#.###} ms.");
+                string? audioInsert = counterAudio > 0 ? $" and {counterAudio} audio files" : null;
+                Logger.LogMessage($"Loaded {counterAll - counterAudio} sprites{audioInsert} in {(end - start).TotalSeconds:#.###} ms.");
             }
         }
 
-        private int counter;
+        private int counterAll;
+        private int counterAudio;
         public void ReadDirectory(DirectoryInfo directory, SpriteContext dirCxt)
         {
-            foreach (DirectoryInfo subdirectory in directory.EnumerateDirectories())
+            foreach (DirectoryInfo subDirectory in directory.EnumerateDirectories())
             {
-                SpriteContext subdirCxt = new SpriteContext(dirCxt);
-                string name = Path.GetFileNameWithoutExtension(subdirectory.FullName);
-                ExtractContext(ref name, ref subdirCxt);
-                ReadDirectory(subdirectory, subdirCxt);
+                SpriteContext subDirCxt = new SpriteContext(dirCxt);
+                string fileNameWithoutExt = Path.GetFileNameWithoutExtension(subDirectory.FullName);
+                ExtractContext(ref fileNameWithoutExt, ref subDirCxt);
+                ReadDirectory(subDirectory, subDirCxt);
             }
             foreach (FileInfo file in directory.EnumerateFiles())
             {
                 SpriteContext fileCxt = new SpriteContext(dirCxt);
-                string name = Path.GetFileNameWithoutExtension(file.FullName);
-                ExtractContext(ref name, ref fileCxt);
+                string fileNameWithoutExt = Path.GetFileNameWithoutExtension(file.FullName);
+                ExtractContext(ref fileNameWithoutExt, ref fileCxt);
                 byte[] rawData = File.ReadAllBytes(file.FullName);
-                ReadSprite(name, rawData, fileCxt);
+                ReadSprite(fileNameWithoutExt, rawData, fileCxt, file.Extension);
             }
         }
         public void ReadArchive(FileInfo archiveFile, SpriteContext archiveCxt)
@@ -112,15 +139,15 @@ namespace SpritePackLoader
                         string dir = paths[i];
                         ExtractContext(ref dir, ref cxt);
                     }
-                    string name = paths[paths.Length - 1];
-                    int extIndex = name.LastIndexOf('.');
-                    if (extIndex != -1) name = name.Substring(0, extIndex);
-                    ExtractContext(ref name, ref cxt);
+                    string fileName = paths[paths.Length - 1];
+                    int extIndex = fileName.LastIndexOf('.');
+                    if (extIndex != -1) fileName = fileName.Substring(0, extIndex);
+                    ExtractContext(ref fileName, ref cxt);
                     using (MemoryStream stream = new MemoryStream())
                     {
                         entry.Open().CopyTo(stream, 4 * 1024);
                         byte[] rawData = stream.ToArray();
-                        ReadSprite(name, rawData, cxt);
+                        ReadSprite(fileName, rawData, cxt, Path.GetExtension(entry.FullName));
                     }
                 }
             }
@@ -133,20 +160,21 @@ namespace SpritePackLoader
             ["FLOORS"] = SpriteScope.Floors,
             ["BULLETS"] = SpriteScope.Bullets,
             ["HAIR"] = SpriteScope.Hair,
-            ["FACIALHAIR"] = SpriteScope.FacialHair,
+            [@"FACIALHAIR"] = SpriteScope.FacialHair,
             ["HEADPIECES"] = SpriteScope.HeadPieces,
             ["AGENTS"] = SpriteScope.Agents,
             ["BODIES"] = SpriteScope.Bodies,
             ["WRECKAGE"] = SpriteScope.Wreckage,
             ["INTERFACE"] = SpriteScope.Interface,
             ["DECALS"] = SpriteScope.Decals,
-            ["WALLTOPS"] = SpriteScope.WallTops,
+            [@"WALLTOPS"] = SpriteScope.WallTops,
             ["WALLS"] = SpriteScope.Walls,
-            ["SPAWNERS"] = SpriteScope.Spawners,
+            [@"SPAWNERS"] = SpriteScope.Spawners,
+            ["AUDIO"] = (SpriteScope)(-1),
         };
-        public void ExtractContext(ref string name, ref SpriteContext cxt)
+        public void ExtractContext(ref string fileName, ref SpriteContext cxt)
         {
-            string[] split = name.Split('_');
+            string[] split = fileName.Split('_');
             if (split.Length > 0)
             {
                 string part = split[0];
@@ -190,17 +218,32 @@ namespace SpritePackLoader
                     }
                 }
             }
-            name = string.Join("_", split);
+            fileName = string.Join("_", split);
         }
-        public void ReadSprite(string spriteName, byte[] rawData, SpriteContext cxt)
+        public void ReadSprite(string spriteName, byte[] rawData, SpriteContext cxt, string ext)
         {
-			spriteName = spriteName.Replace('$', '/');
+            spriteName = spriteName.Replace('$', '/');
             if (cxt.IsValid())
                 try
                 {
-                    RogueLibs.CreateCustomSprite(spriteName, cxt.Scope.Value, rawData, cxt.Size.Value);
-                    counter++;
-                    return;
+                    if (cxt.Scope!.Value is (SpriteScope)(-1))
+                    {
+                        AudioType type = ext.ToUpperInvariant() switch
+                        {
+                            ".MP3" => AudioType.MPEG,
+                            ".WAV" or ".WAVE" => AudioType.WAV,
+                            ".OGG" or ".SPX" or ".OPUS" => AudioType.OGGVORBIS,
+                            _ => throw new InvalidOperationException($"Unknown audio file extension: {ext}!"),
+                        };
+                        AudioClip clip = RogueUtilities.ConvertToAudioClip(rawData, type);
+                        clip.name = spriteName;
+                        overrideClips.Add(clip);
+                    }
+                    else
+                    {
+                        RogueLibs.CreateCustomSprite(spriteName, cxt.Scope.Value, rawData, cxt.Size!.Value);
+                    }
+                    counterAll++;
                 }
                 catch
                 {
@@ -228,7 +271,7 @@ namespace SpritePackLoader
         }
         public SpriteScope? Scope { get; set; }
         public int? Size { get; set; }
-        public Rect? Rect => Size.HasValue ? new Rect(0, 0, Size.Value, Size.Value) : new Rect?();
+        public readonly Rect? Rect => Size.HasValue ? new Rect(0, 0, Size.Value, Size.Value) : new Rect?();
 
         public bool IsValid() => Scope.HasValue && Size.HasValue;
     }

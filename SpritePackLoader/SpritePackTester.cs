@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RogueLibsCore;
-using SpritePackLoader.Hexagons;
 
 namespace SpritePackLoader
 {
@@ -23,8 +21,7 @@ namespace SpritePackLoader
         }
         private static bool displayed;
         private static bool activating;
-        private static readonly List<InvItem> decoys = new List<InvItem>();
-        private IEnumerable<Vector3> EnumerateLocationsNearby(float scale)
+        private static IEnumerable<Vector3> EnumerateLocationsNearby(float scale)
             => Hexagon.Spiral(new Hexagon(0, 0, 0), int.MaxValue).Select(h => h.ToVector(scale));
         public bool UseItem()
         {
@@ -37,25 +34,26 @@ namespace SpritePackLoader
         {
             try
             {
-                if (displayed = !displayed)
+                displayed = !displayed;
+                if (displayed)
                 {
                     Vector3 center = Owner.tr.position;
-                    IEnumerator<Vector3> locationsEnumerator = EnumerateLocationsNearby(0.48f).GetEnumerator();
-
-                    foreach (ItemUnlock item in RogueFramework.Unlocks.OfType<ItemUnlock>())
+                    using (IEnumerator<Vector3> locationsEnumerator = EnumerateLocationsNearby(0.48f).GetEnumerator())
                     {
-                        InvItem invItem = new InvItem { invItemName = item.Name };
-                        invItem.SetupDetails(false);
-                        invItem.invItemCount = 0;
-                        invItem.Categories.Add("Decoy");
+                        foreach (ItemUnlock item in RogueFramework.Unlocks.OfType<ItemUnlock>())
+                        {
+                            InvItem invItem = new InvItem { invItemName = item.Name };
+                            invItem.SetupDetails(false);
+                            invItem.invItemCount = 0;
+                            invItem.Categories.Add("Decoy");
 
-                        if (!locationsEnumerator.MoveNext()) break;
-                        Vector3 location = locationsEnumerator.Current + center;
-                        Item spawned = GameController.gameController.spawnerMain.SpawnItem(location, invItem);
-                        spawned.SetCantPickUp(true);
-                        GameController.gameController.audioHandler.Play(spawned, "Spawn");
-                        decoys.Add(invItem);
-                        yield return new WaitForFixedUpdate();
+                            if (!locationsEnumerator.MoveNext()) break;
+                            Vector3 location = locationsEnumerator.Current + center;
+                            Item spawned = GameController.gameController.spawnerMain.SpawnItem(location, invItem);
+                            spawned.SetCantPickUp(true);
+                            GameController.gameController.audioHandler.Play(spawned, "Spawn");
+                            yield return new WaitForFixedUpdate();
+                        }
                     }
                 }
                 else
@@ -79,10 +77,8 @@ namespace SpritePackLoader
                                     db.DestroyItem(item);
                                     playSound = true;
                                 }
-                        if (playSound) GameController.gameController.audioHandler.Play(db.objectReal, "Spawn");
+                        if (playSound) GameController.gameController.audioHandler.Play(db!.objectReal, "Spawn");
                     }
-
-                    decoys.Clear();
                 }
             }
             finally

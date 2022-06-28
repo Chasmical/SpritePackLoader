@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32113.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpritePackLoader", "SpritePackLoader\SpritePackLoader.csproj", "{EA840BE2-3214-49C5-AC0B-77B44B56CE55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpritePackLoader", "SpritePackLoader\SpritePackLoader.csproj", "{2AB216D2-AB4D-48E3-AC95-C6A4D34CBF43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EA840BE2-3214-49C5-AC0B-77B44B56CE55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA840BE2-3214-49C5-AC0B-77B44B56CE55}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA840BE2-3214-49C5-AC0B-77B44B56CE55}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA840BE2-3214-49C5-AC0B-77B44B56CE55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB216D2-AB4D-48E3-AC95-C6A4D34CBF43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB216D2-AB4D-48E3-AC95-C6A4D34CBF43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB216D2-AB4D-48E3-AC95-C6A4D34CBF43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB216D2-AB4D-48E3-AC95-C6A4D34CBF43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {51A1A6B2-CC68-486C-A2F0-A472DC5965EC}
+		SolutionGuid = {F88A2DD6-BD68-4FA5-B178-469EE7E0107C}
 	EndGlobalSection
 EndGlobal
