@@ -70,7 +70,7 @@ The instructions for adding any other sprites are the same, just with a differen
 
 You can find the sprites' internal names in the tk2d archive below.
 
-
+During development, you can simply put these subfolders into `<game root folder>/SpritePack` directory. Its contents will be read as if it were an archive. When you're finished you can just zip it and rename it to a .spritepack file.
 
 ## Resources
 
